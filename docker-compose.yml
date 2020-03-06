@@ -1,0 +1,21 @@
+version: '2'
+services:
+  nginx:
+    build: dockerImages/nginx
+    container_name: nginx
+    ports:
+      - '8080:80'
+    volumes:
+      - ./src:/var/www/html
+      - ./dockerImages/nginx/site.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - code-network
+  php:
+    build: dockerImages/php
+    container_name: php
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - code-network
+networks:
+  code-network:
