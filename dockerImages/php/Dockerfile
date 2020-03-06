@@ -30,16 +30,12 @@ RUN apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY php.ini /usr/local/etc/php/conf.d/40-custom.ini
 
 # Install lumen php
 
-WORKDIR /var/www/html
-COPY . /var/www/html
 
 CMD ["php", "-S", "0.0.0.0:9090", "-t", "/var/www/html/public"]
 
